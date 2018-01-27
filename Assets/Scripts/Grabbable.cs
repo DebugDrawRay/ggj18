@@ -15,7 +15,7 @@ public class Grabbable : MonoBehaviour
 		rigid = GetComponent<Rigidbody>();
 	}
 
-	public bool adding;
+	public bool adding = true;
 	public void ChangeVelocity(float amount)
 	{
 		if(!draining)

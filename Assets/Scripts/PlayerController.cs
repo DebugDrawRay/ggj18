@@ -6,6 +6,7 @@ using Rewired;
 public class PlayerController : MonoBehaviour, IInputController
 {
 	public static PlayerController instance;
+	public static Vector3 position;
 	public ActionSet Actions
 	{
 		get;
@@ -24,6 +25,8 @@ public class PlayerController : MonoBehaviour, IInputController
 		Actions.moveVector.x = move.x;
 		Actions.moveVector.z = move.y;
 		Actions.primaryAction = input.GetButton("grab");
+
+		position = transform.position;
 	}
 }
 
