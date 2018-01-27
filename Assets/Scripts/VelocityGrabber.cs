@@ -11,10 +11,15 @@ public class VelocityGrabber : ControlAction
 	public float drainAmount;
 	private bool hasStopped = true;
 	public float storedVelocity;
+	public float maxVelocity = 30;
 	protected override void Awake()
 	{
 		base.Awake();
 		status = GetComponent<StatusController>();
+	}
+	private void Start()
+	{
+		UIController.instance.UpdateVelocity(storedVelocity/ maxVelocity);
 	}
 	public override void UpdateAction(ActionSet actions)
 	{
@@ -31,6 +36,7 @@ public class VelocityGrabber : ControlAction
 						storedVelocity -= drainAmount;
 						current.ChangeVelocity(drainAmount);
 					}
+					status.arrow.transform.localRotation = Quaternion.Euler(new Vector3(0,0,180));
 				}
 				else
 				{
@@ -39,7 +45,11 @@ public class VelocityGrabber : ControlAction
 						storedVelocity += drainAmount;
 						current.ChangeVelocity(drainAmount);
 					}
+					status.arrow.transform.localRotation = Quaternion.Euler(new Vector3(0,0,0));
 				}
+				storedVelocity = Mathf.Clamp(storedVelocity, 0, maxVelocity);
+				status.arrow.fillAmount = Mathf.Abs(current.magnitude / current.maxMag);
+				UIController.instance.UpdateVelocity(storedVelocity/ maxVelocity);
 			}
 		}
 		else
@@ -53,7 +63,7 @@ public class VelocityGrabber : ControlAction
 				hasStopped = true;
 			}
 		}
-
+		status.arrowCanvas.gameObject.SetActive(actions.primaryAction);
 		GetComponent<TwoAxisMovement>().canMove = !actions.primaryAction;
 	}
 	private void Update()

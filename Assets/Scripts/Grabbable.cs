@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class Grabbable : MonoBehaviour 
 {
-	private Rigidbody rigid;
+	public Rigidbody rigid
+	{
+		get;
+		private set;
+	}
 	
+	public float maxMag = 10;
 	private bool draining;
 
 	private Vector3 direction;
-	private float magnitude;
+	public float magnitude
+	{
+		get;
+		private set;
+	}
 	private void Awake()
 	{
 		rigid = GetComponent<Rigidbody>();
@@ -23,19 +32,23 @@ public class Grabbable : MonoBehaviour
 			direction = rigid.velocity.normalized;
 			if(direction == Vector3.zero)
 			{
-				direction = PlayerController.instance.gameObject.transform.position - transform.position;
-				direction = direction.normalized;
+				direction = (PlayerController.position - transform.position).normalized;
 			}
 			magnitude = rigid.velocity.magnitude;
 			rigid.velocity = Vector3.zero;
 			draining = true;
 		}
 		magnitude -= amount;
+		magnitude = Mathf.Clamp(magnitude, -maxMag, maxMag);
 		adding = magnitude < 0;
 	}
 
 	public void StopDrain()
 	{
+		if(magnitude < 0)
+		{
+			direction = PlayerController.position - transform.position;
+		}
 		rigid.velocity = direction * magnitude;
 		draining = false;
 	}

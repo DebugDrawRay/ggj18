@@ -11,6 +11,7 @@ public class TwoAxisMovement : ControlAction
 	private Vector3 currentDirection;
 	private float currentAcceleration;
     public bool canMove;
+    public bool updateFacing = true;
 	public override void UpdateAction(ActionSet actions)
 	{
         if(canMove)
@@ -20,7 +21,10 @@ public class TwoAxisMovement : ControlAction
             if(moveVector != Vector3.zero)
             {
                 currentDirection = moveVector;// Vector3.Lerp(currentDirection, moveVector, directionSmoothing);
-                GetComponent<StatusController>().CurrentFacing = currentDirection.normalized;
+                if(updateFacing)
+                {
+                    GetComponent<StatusController>().CurrentFacing = currentDirection.normalized;
+                }
                 currentAcceleration += acceleration;
             }
             else

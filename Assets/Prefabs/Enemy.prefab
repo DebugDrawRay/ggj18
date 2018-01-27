@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4225081921059558}
   - component: {fileID: 212588282749506906}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,8 @@ GameObject:
   - component: {fileID: 114720038583404850}
   - component: {fileID: 114043921802028710}
   - component: {fileID: 114839599541475370}
-  m_Layer: 10
+  - component: {fileID: 114497667696015686}
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +88,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -141,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentVelocity: 0
+  cardinalizeDirection: 0
 --- !u!114 &114365979859141498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,6 +183,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   canMove: 1
+  updateFacing: 0
 --- !u!114 &114459201244150438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,6 +195,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebfd7125fdbf7641a10a63376d10e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114497667696015686
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902255223966766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 568cf103482839c469939680968b4a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fixedUpdate: 0
+  throwable: {fileID: 1137831185460588, guid: 9fb8fcf30d82fb54887d373936431321, type: 2}
+  throwableOffset: 0.25
+  throwForce: 10
 --- !u!114 &114720038583404850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,6 +225,7 @@ MonoBehaviour:
   lastRepath: 0
   nextWaypointDistance: 3
   playerTriggerDistance: 5
+  throwDelay: 5
 --- !u!114 &114839599541475370
 MonoBehaviour:
   m_ObjectHideFlags: 1
