@@ -164,8 +164,8 @@ MonoBehaviour:
   arrowCanvas: {fileID: 0}
   arrow: {fileID: 0}
   maxHealth: 1
-  knockbackTime: 0.5
-  knockbackForce: 5
+  knockbackTime: 0.15
+  knockbackForce: 1.5
   isPlayer: 0
   damageLayer:
     serializedVersion: 2
@@ -176,6 +176,7 @@ MonoBehaviour:
   hurt: {fileID: 8300000, guid: 11fe60091bb1dba48ae90ad52ab4967c, type: 3}
   death: {fileID: 8300000, guid: e246b1736a845b94dbf8dfbd3667f652, type: 3}
   low: {fileID: 0}
+  isDying: 0
 --- !u!114 &114365979859141498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -242,7 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixedUpdate: 0
   throwable: {fileID: 1137831185460588, guid: 9fb8fcf30d82fb54887d373936431321, type: 2}
-  throwableOffset: 0.25
+  throwableOffset: -0.25
   throwForce: 10
   thrown: {fileID: 8300000, guid: 394d15f3fd290924caf7e7772001c4fa, type: 3}
 --- !u!114 &114720038583404850
@@ -258,7 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   repathRate: 0.5
   lastRepath: 0
-  nextWaypointDistance: 3
+  nextWaypointDistance: 1.5
   playerTriggerDistance: 5
   throwDelay: 2.5
 --- !u!114 &114839599541475370
@@ -316,8 +317,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 69d0baa10c378fe4fb998ae2771bb497, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 19e0d0f9149b7cd4b86d9627f9f409e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 	public static UIController instance;
 	public Image[] hearts;
 
+	public Image[] collectables;
 	private void Awake()
 	{
 		instance = this;
@@ -19,5 +20,11 @@ public class UIController : MonoBehaviour
 			hearts[i].gameObject.SetActive(i < remaining);
 		}
 	}
-
+	public void UpdateCollectables(int remaining)
+	{
+		for(int i = 0; i < hearts.Length; i++)
+		{
+			hearts[i].gameObject.SetActive(i < remaining);
+		}
+	}
 }

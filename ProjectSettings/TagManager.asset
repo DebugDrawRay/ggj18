@@ -19,7 +19,7 @@ TagManager:
   - Enemy
   - PhysicalObject
   - GrabbableFromPlayer
-  - 
+  - Collectable
   - 
   - 
   - 

@@ -107,12 +107,14 @@ public class AIController : MonoBehaviour, IInputController
     private void UpdateThrowing()
     {
         GetComponent<StatusController>().CurrentFacing = (PlayerController.position - transform.position).normalized;
-		Actions.primaryAction = true;
-		if (Time.time >= currentDelay)
-		{
-			Actions.primaryAction = false;
-			ChangeState(State.Idle);
-		}
+        GetComponent<Animator>().SetFloat("x", GetComponent<StatusController>().CurrentFacing.x);
+        GetComponent<Animator>().SetFloat("y", GetComponent<StatusController>().CurrentFacing.z);
+        Actions.primaryAction = true;
+        if (Time.time >= currentDelay)
+        {
+            Actions.primaryAction = false;
+            ChangeState(State.Idle);
+        }
     }
     public void OnPathComplete(Path p)
     {

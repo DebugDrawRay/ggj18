@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class StatusController : MonoBehaviour
 {
     private Vector3 currentFacing = Vector3.forward;
@@ -141,14 +142,7 @@ public class StatusController : MonoBehaviour
     }
     private void Death()
     {
-        if (isPlayer)
-        {
-
-        }
-        else
-        {
-            StartCoroutine(Death_Coroutine());
-        }
+		StartCoroutine(Death_Coroutine());
     }
 
     private IEnumerator Death_Coroutine()
@@ -157,6 +151,13 @@ public class StatusController : MonoBehaviour
         isDying = true;
         GetComponent<Animator>().SetTrigger("death");
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+		if(isPlayer)
+		{
+			SceneManager.LoadScene("You Lose");
+		}
+		else
+		{
+        	Destroy(gameObject);
+		}
     }
 }

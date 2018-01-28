@@ -464,8 +464,8 @@ MonoBehaviour:
   arrowCanvas: {fileID: 1295794458727258}
   arrow: {fileID: 0}
   maxHealth: 3
-  knockbackTime: 0.15
-  knockbackForce: 1.5
+  knockbackTime: 0.25
+  knockbackForce: 1
   isPlayer: 1
   damageLayer:
     serializedVersion: 2
@@ -584,6 +584,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d896ba2cc84dae34ab630439ba2f051a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectables: 0
+  collect: {fileID: 8300000, guid: 1efc8a6af471c6e49b3e0386ab1fe2ff, type: 3}
 --- !u!114 &114977665330464800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -724,7 +726,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 0198d99924a6ce94db918c7aeea2c9e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

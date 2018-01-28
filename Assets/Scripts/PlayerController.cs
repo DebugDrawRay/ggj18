@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour, IInputController
 {
 	public static PlayerController instance;
 	public static Vector3 position;
+	public int collectables;
+	public AudioClip collect;
+	private int target = 3;
 	public ActionSet Actions
 	{
 		get;
@@ -27,6 +30,17 @@ public class PlayerController : MonoBehaviour, IInputController
 		Actions.primaryAction = input.GetButton("grab");
 
 		position = transform.position;
+	}
+
+	private void OnCollisionEnter(Collision other)
+	{
+		if(other.gameObject.GetComponent<Collectable>())
+		{
+			Destroy(other.gameObject);
+			collectables++;
+			UIController.instance.UpdateCollectables(collectables);
+			AudioManager.instance.PlaySfx(collect);
+		}
 	}
 }
 
