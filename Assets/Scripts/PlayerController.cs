@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour, IInputController
 {
 	public static PlayerController instance;
 	public static Vector3 position;
 	public int collectables;
 	public AudioClip collect;
+	public AudioClip foundAll;
 	private int target = 3;
+	private bool ending;
 	public ActionSet Actions
 	{
 		get;
@@ -30,6 +32,18 @@ public class PlayerController : MonoBehaviour, IInputController
 		Actions.primaryAction = input.GetButton("grab");
 
 		position = transform.position;
+
+		if(collectables >= 3&& !ending)
+		{
+			Invoke("Win", 1.5f);
+			AudioManager.instance.PlaySfx(foundAll);
+			ending = true;
+		}
+	}
+
+	private void Win()
+	{
+		SceneManager.LoadScene("You Win");
 	}
 
 	private void OnCollisionEnter(Collision other)

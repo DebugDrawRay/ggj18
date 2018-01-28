@@ -22,9 +22,9 @@ public class UIController : MonoBehaviour
 	}
 	public void UpdateCollectables(int remaining)
 	{
-		for(int i = 0; i < hearts.Length; i++)
+		for(int i = 0; i < collectables.Length; i++)
 		{
-			hearts[i].gameObject.SetActive(i < remaining);
+			collectables[i].gameObject.SetActive(i < remaining);
 		}
 	}
 }

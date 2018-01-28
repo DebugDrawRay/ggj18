@@ -13,6 +13,8 @@ public class VelocityGrabber : ControlAction
     public float maxVelocity = 30;
 
     public AudioClip full;
+    private AudioSource shakeSource;
+    public AudioClip shake;
     public enum Mode
     {
         Pull,
@@ -27,9 +29,17 @@ public class VelocityGrabber : ControlAction
 
     private bool hasPressed;
     private bool hasStopped = false;
+
+    public GameObject throwVis;
     private void Start()
     {
         GetComponent<Animator>().SetFloat("charge", storedVelocity / maxVelocity);
+        shakeSource = AudioManager.instance.AddSourcePersistent();
+        shakeSource.Stop();
+        shakeSource.playOnAwake = false;
+        shakeSource.volume = .5f;
+        shakeSource.clip = shake;
+        shakeSource.loop = true;
     }
     public override void UpdateAction(ActionSet actions)
     {
@@ -59,6 +69,20 @@ public class VelocityGrabber : ControlAction
         GetComponent<TwoAxisMovement>().locked = trigger;
         if (trigger)
         {
+            if(grabber.currentObjects.Count > 0)
+            {
+                if(!shakeSource.isPlaying)
+                {
+                    shakeSource.Play();
+                }
+            }
+            else
+            {
+                if(shakeSource.isPlaying)
+                {
+                    shakeSource.Stop();
+                }
+            }
             hasPressed = true;
             if (grabber.currentObject == null)
             {
@@ -100,6 +124,10 @@ public class VelocityGrabber : ControlAction
                     }
                     hasStopped = true;
                 }
+                if(shakeSource.isPlaying)
+                {
+                    shakeSource.Stop();
+                }
             }
         }
         else
@@ -123,8 +151,24 @@ public class VelocityGrabber : ControlAction
     public void Push(bool trigger)
     {
         Grabbable current = grabber.currentObject;
+        GetComponent<TwoAxisMovement>().locked = trigger;
         if (current)
         {
+            throwVis.SetActive(trigger);
+            if(trigger)
+            {
+                if(!shakeSource.isPlaying)
+                {
+                    shakeSource.Play();
+                }
+            }
+            else
+            {
+                if(shakeSource.isPlaying)
+                {
+                    shakeSource.Stop();
+                }
+            }
             if (trigger)
             {
                 hasPressed = true;

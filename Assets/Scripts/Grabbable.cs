@@ -38,8 +38,8 @@ public class Grabbable : MonoBehaviour
         private set;
     }
 
-	public AudioClip thrown;
-	public AudioClip grab;
+    public AudioClip thrown;
+    public AudioClip grab;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -65,9 +65,12 @@ public class Grabbable : MonoBehaviour
     {
         if (changing)
         {
-            Vector2 pos = Random.insideUnitSphere;
-            Vector3 actual = new Vector3(pos.x, 0, pos.y);
-            visual.transform.localPosition = actual * 0.05f;
+            if (!isHeld)
+            {
+                Vector2 pos = Random.insideUnitSphere;
+                Vector3 actual = new Vector3(pos.x, 0, pos.y);
+                visual.transform.localPosition = actual * 0.05f;
+            }
             if (magnitude > 0)
             {
                 rigid.velocity = direction * magnitude;
@@ -84,12 +87,15 @@ public class Grabbable : MonoBehaviour
                         visual.transform.localPosition = Vector3.zero;
                         PlayerController.instance.GetComponent<VelocityGrabber>().grabber.currentObject = this;
                         isHeld = true;
-						AudioManager.instance.PlaySfx(grab);
+                        AudioManager.instance.PlaySfx(grab);
                         changeVisual.SetActive(false);
+                        gameObject.layer = LayerMask.NameToLayer("GrabbableFromEnemy");
                     }
                 }
             }
         }
+
+
     }
     public void StopChange()
     {
@@ -109,7 +115,7 @@ public class Grabbable : MonoBehaviour
             magnitude = Mathf.Clamp(magnitude, -maxMag, maxMag);
             rigid.velocity = direction * magnitude;
             isHeld = false;
-			AudioManager.instance.PlaySfx(thrown);
+            AudioManager.instance.PlaySfx(thrown);
         }
 
         magnitude = 0;
