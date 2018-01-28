@@ -2,72 +2,110 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grabbable : MonoBehaviour 
+public class Grabbable : MonoBehaviour
 {
-	public Rigidbody rigid
-	{
-		get;
-		private set;
-	}
-	
-	public float maxMag = 10;
-	private bool changing;
+    public Rigidbody rigid
+    {
+        get;
+        private set;
+    }
 
-	private Vector3 direction;
+    public float maxMag = 10;
+    private bool changing;
 
-	public bool aggressive = true;
-	public float magnitude
-	{
-		get;
-		private set;
-	}
-	private void Awake()
-	{
-		rigid = GetComponent<Rigidbody>();
-	}
+    private Vector3 direction;
 
-	public void StartChange(Transform newParent)
-	{
-		direction = rigid.velocity.normalized;
-		magnitude = rigid.velocity.magnitude;
+    public bool aggressive = true;
 
-		rigid.velocity = Vector3.zero;
-		rigid.isKinematic = true;
+    public float heldDistance = 3;
+    public GameObject changeVisual;
 
-		transform.SetParent(newParent);
-		transform.localPosition = Vector3.zero;
+    public bool isHeld
+    {
+        get;
+        private set;
+    }
+	public bool isEnemies = true;
+    private Transform parent;
+    public float magnitude
+    {
+        get;
+        private set;
+    }
+    private void Awake()
+    {
+        rigid = GetComponent<Rigidbody>();
+    }
 
-		changing = true;
-	}
-	public void ChangeVelocity(float amount)
-	{
-		magnitude -= amount;
-		magnitude = Mathf.Clamp(magnitude, -maxMag, maxMag);
-	}
+    public void StartChange(Transform newParent)
+    {
+        direction = rigid.velocity.normalized;
+        magnitude = rigid.velocity.magnitude;
 
-	public void StopChange()
-	{
-		rigid.isKinematic = false;
-		transform.SetParent(null);
+        changing = true;
+        changeVisual.SetActive(true);
 
-		if(magnitude < 0)
+        parent = newParent;
+        isHeld = false;
+    }
+    public void ChangeVelocity(float amount)
+    {
+        magnitude -= amount;
+    }
+
+    public void Update()
+    {
+        if (changing)
+        {
+            if (magnitude > 0)
+            {
+                rigid.velocity = direction * magnitude;
+            }
+            else
+            {
+                if (!isHeld)
+                {
+                    if (Vector3.Distance(PlayerController.position, transform.position) <= heldDistance && PlayerController.instance.GetComponent<VelocityGrabber>().grabber.currentObject == null)
+                    {
+                        rigid.isKinematic = true;
+                        transform.SetParent(parent);
+                        transform.localPosition = Vector3.zero;
+						PlayerController.instance.GetComponent<VelocityGrabber>().grabber.currentObject = this;
+                        isHeld = true;
+                    }
+                }
+            }
+        }
+    }
+    public void StopChange()
+    {
+        if (magnitude < 0)
+        {
+            gameObject.layer = LayerMask.NameToLayer("GrabbableFromPlayer");
+            direction = -PlayerController.instance.GetComponent<StatusController>().CurrentFacing;
+            aggressive = false;
+        }
+
+        transform.SetParent(null);
+        rigid.isKinematic = false;
+
+        parent = null;
+		if(isHeld)
 		{
-			gameObject.layer = LayerMask.NameToLayer("GrabbableFromPlayer");
-			direction = -PlayerController.instance.GetComponent<StatusController>().CurrentFacing;
-			aggressive = false;
+        	magnitude = Mathf.Clamp(magnitude, -maxMag, maxMag);
+        	rigid.velocity = direction * magnitude;
+			isHeld = false;
 		}
-		rigid.velocity = direction * magnitude;
 
-		magnitude = 0;
-		direction = Vector3.zero;
-	}
-	public void SetMagnitude(float amount)
-	{
-		magnitude = amount;
-	}
+        magnitude = 0;
+        direction = Vector3.zero;
+        changing = false;
+        changeVisual.SetActive(false);
+    }
+
 	private void OnCollisionEnter(Collision other)
 	{
-		aggressive = false;
 		rigid.velocity = Vector3.zero;
+		aggressive = false;
 	}
 }

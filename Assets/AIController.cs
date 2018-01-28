@@ -16,7 +16,7 @@ public class AIController : MonoBehaviour, IInputController
     private Path path;
     private int currentWaypoint;
 
-    public float nextWaypointDistance = 3;
+    public float nextWaypointDistance = 2;
     public float playerTriggerDistance = 5f;
 
     public float throwDelay;

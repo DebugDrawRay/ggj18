@@ -91,7 +91,7 @@ public class StatusController : MonoBehaviour
             if (hits.Length > 0)
             {
                 Grabbable obj = hits[0].gameObject.GetComponent<Grabbable>();
-                if (obj && (isPlayer ? obj.aggressive : obj.rigid.velocity.magnitude > damageThresh))
+                if (obj && obj.rigid.velocity.magnitude > damageThresh)
                 {
                     obj.rigid.velocity = Vector3.zero;
                     Knockback(obj.transform.position);

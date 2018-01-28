@@ -193,7 +193,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  canMove: 1
+  locked: 0
   updateFacing: 0
 --- !u!114 &114459201244150438
 MonoBehaviour:

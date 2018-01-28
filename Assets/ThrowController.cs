@@ -51,6 +51,7 @@ public class ThrowController : ControlAction
 			current.rigid.isKinematic = false;
 			Vector3 force = status.CurrentFacing * throwForce;
 			current.rigid.AddForce(force, ForceMode.Impulse);
+			current.isEnemies = false;
 			current = null;
 		}
 	}

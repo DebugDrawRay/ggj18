@@ -10,7 +10,7 @@ public class TwoAxisMovement : ControlAction
     public AnimationCurve accelerationCurve;
     private Vector3 currentDirection;
     private float currentAcceleration;
-    public bool canMove;
+    public bool locked;
     public bool updateFacing = true;
 
     private StatusController status;
@@ -21,14 +21,14 @@ public class TwoAxisMovement : ControlAction
     }
     public override void UpdateAction(ActionSet actions)
     {
-        if (canMove && !status.inKnockback)
+        if (!status.inKnockback)
         {
             Vector3 moveVector = actions.moveVector;
 
             if (moveVector != Vector3.zero)
             {
                 currentDirection = moveVector;// Vector3.Lerp(currentDirection, moveVector, directionSmoothing);
-                if (updateFacing)
+                if (updateFacing && !locked)
                 {
                     GetComponent<StatusController>().CurrentFacing = currentDirection.normalized;
                 }
@@ -41,6 +41,10 @@ public class TwoAxisMovement : ControlAction
 
             currentAcceleration = Mathf.Clamp(currentAcceleration, 0, 1);
             float currentSpeed = speed * accelerationCurve.Evaluate(currentAcceleration);
+            if(locked)
+            {
+                currentSpeed *= .5f;
+            }
             Vector3 totalDirection = currentDirection * Time.deltaTime * currentSpeed;
 
             transform.position = Vector3.Lerp(transform.position, transform.position + totalDirection, moveSmoothing);
