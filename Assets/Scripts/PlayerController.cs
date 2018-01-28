@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour, IInputController
 	}
 	private void Update()
 	{
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+
 		Vector2 move = input.GetAxis2D("moveX", "moveY");
 		Actions.moveVector.x = move.x;
 		Actions.moveVector.z = move.y;

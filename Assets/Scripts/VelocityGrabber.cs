@@ -69,19 +69,9 @@ public class VelocityGrabber : ControlAction
         GetComponent<TwoAxisMovement>().locked = trigger;
         if (trigger)
         {
-            if(grabber.currentObjects.Count > 0)
+            if (!shakeSource.isPlaying)
             {
-                if(!shakeSource.isPlaying)
-                {
-                    shakeSource.Play();
-                }
-            }
-            else
-            {
-                if(shakeSource.isPlaying)
-                {
-                    shakeSource.Stop();
-                }
+                shakeSource.Play();
             }
             hasPressed = true;
             if (grabber.currentObject == null)
@@ -124,7 +114,7 @@ public class VelocityGrabber : ControlAction
                     }
                     hasStopped = true;
                 }
-                if(shakeSource.isPlaying)
+                if (shakeSource.isPlaying)
                 {
                     shakeSource.Stop();
                 }
@@ -132,6 +122,10 @@ public class VelocityGrabber : ControlAction
         }
         else
         {
+            if (shakeSource.isPlaying)
+            {
+                shakeSource.Stop();
+            }
             if (hasPressed)
             {
                 foreach (Grabbable current in grabber.currentObjects)
@@ -155,16 +149,16 @@ public class VelocityGrabber : ControlAction
         if (current)
         {
             throwVis.SetActive(trigger);
-            if(trigger)
+            if (trigger)
             {
-                if(!shakeSource.isPlaying)
+                if (!shakeSource.isPlaying)
                 {
                     shakeSource.Play();
                 }
             }
             else
             {
-                if(shakeSource.isPlaying)
+                if (shakeSource.isPlaying)
                 {
                     shakeSource.Stop();
                 }

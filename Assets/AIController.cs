@@ -113,7 +113,7 @@ public class AIController : MonoBehaviour, IInputController
         if (Time.time >= currentDelay)
         {
             Actions.primaryAction = false;
-            ChangeState(State.Idle);
+            ChangeState(State.Moving);
         }
     }
     public void OnPathComplete(Path p)

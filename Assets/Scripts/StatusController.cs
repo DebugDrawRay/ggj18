@@ -137,7 +137,7 @@ public class StatusController : MonoBehaviour
         currentKnock = knockbackTime;
         Vector3 dir = (transform.position - from).normalized;
         dir.y = 0;
-        knockbackTarget = dir * knockbackForce;
+        knockbackTarget = transform.position + (dir * knockbackForce);
         inKnockback = true;
     }
     private void Death()
