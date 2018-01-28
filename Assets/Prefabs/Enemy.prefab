@@ -91,8 +91,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Constraints: 116
+  m_CollisionDetection: 1
 --- !u!65 &65439698325527526
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -103,7 +103,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 0.4, y: 0.4, z: 0.4}
   m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!114 &114043921802028710
 MonoBehaviour:
@@ -141,8 +141,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aeeb16c5662cb848bfb242085a5c5f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentVelocity: 0
   cardinalizeDirection: 0
+  arrowCanvas: {fileID: 0}
+  arrow: {fileID: 0}
+  maxHealth: 1
+  knockbackTime: 0.5
+  knockbackForce: 5
+  isPlayer: 0
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  damageTriggerExtends: {x: 0.25, y: 0.25, z: 0.25}
+  damageTriggerCenter: {x: 0, y: 0.25, z: 0}
+  damageThresh: 5
 --- !u!114 &114365979859141498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -225,7 +236,7 @@ MonoBehaviour:
   lastRepath: 0
   nextWaypointDistance: 3
   playerTriggerDistance: 5
-  throwDelay: 5
+  throwDelay: 2.5
 --- !u!114 &114839599541475370
 MonoBehaviour:
   m_ObjectHideFlags: 1

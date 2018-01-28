@@ -2,26 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TwoAxisMovement : ControlAction 
+public class TwoAxisMovement : ControlAction
 {
-	public float speed = 100;
-	public float acceleration = 10;
-	public float moveSmoothing = 0.1f;
-	public AnimationCurve accelerationCurve;
-	private Vector3 currentDirection;
-	private float currentAcceleration;
+    public float speed = 100;
+    public float acceleration = 10;
+    public float moveSmoothing = 0.1f;
+    public AnimationCurve accelerationCurve;
+    private Vector3 currentDirection;
+    private float currentAcceleration;
     public bool canMove;
     public bool updateFacing = true;
-	public override void UpdateAction(ActionSet actions)
-	{
-        if(canMove)
+
+    private StatusController status;
+    protected override void Awake()
+    {
+        base.Awake();
+        status = GetComponent<StatusController>();
+    }
+    public override void UpdateAction(ActionSet actions)
+    {
+        if (canMove && !status.inKnockback)
         {
             Vector3 moveVector = actions.moveVector;
-            
-            if(moveVector != Vector3.zero)
+
+            if (moveVector != Vector3.zero)
             {
                 currentDirection = moveVector;// Vector3.Lerp(currentDirection, moveVector, directionSmoothing);
-                if(updateFacing)
+                if (updateFacing)
                 {
                     GetComponent<StatusController>().CurrentFacing = currentDirection.normalized;
                 }
@@ -38,5 +45,6 @@ public class TwoAxisMovement : ControlAction
 
             transform.position = Vector3.Lerp(transform.position, transform.position + totalDirection, moveSmoothing);
         }
-	}
+
+    }
 }

@@ -25,7 +25,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1306487701858370
 GameObject:
   m_ObjectHideFlags: 1
@@ -152,7 +152,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901318915360466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4976994280789832}
@@ -181,7 +181,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1295794458727258}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -215,8 +215,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Constraints: 116
+  m_CollisionDetection: 1
 --- !u!65 &65632914840907722
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -227,8 +227,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0.25, z: 0}
+  m_Size: {x: 0.4, y: 0.4, z: 0.4}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!65 &65893139216587802
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -240,7 +240,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!114 &114118929484683854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,8 +254,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixedUpdate: 0
   grabber: {fileID: 114494116714784182}
-  grabOffset: 0.5
-  drainAmount: 0.5
+  grabOffset: 0.6
+  changeAmount: 0.25
   storedVelocity: 30
   maxVelocity: 30
 --- !u!114 &114316046316999758
@@ -293,7 +293,16 @@ MonoBehaviour:
   cardinalizeDirection: 1
   arrowCanvas: {fileID: 1295794458727258}
   arrow: {fileID: 114746887249235108}
-  currentHealth: 3
+  maxHealth: 3
+  knockbackTime: 0.5
+  knockbackForce: 5
+  isPlayer: 1
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  damageTriggerExtends: {x: 0.25, y: 0.25, z: 0.25}
+  damageTriggerCenter: {x: 0, y: 0.25, z: 0}
+  damageThresh: 5
 --- !u!114 &114494116714784182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -346,7 +355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fixedUpdate: 1
-  speed: 50
+  speed: 40
   acceleration: 10
   moveSmoothing: 0.1
   accelerationCurve:
@@ -373,7 +382,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  canMove: 0
+  canMove: 1
   updateFacing: 1
 --- !u!114 &114839424616295716
 MonoBehaviour:

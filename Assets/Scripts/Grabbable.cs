@@ -11,9 +11,11 @@ public class Grabbable : MonoBehaviour
 	}
 	
 	public float maxMag = 10;
-	private bool draining;
+	private bool changing;
 
 	private Vector3 direction;
+
+	public bool aggressive = true;
 	public float magnitude
 	{
 		get;
@@ -24,32 +26,48 @@ public class Grabbable : MonoBehaviour
 		rigid = GetComponent<Rigidbody>();
 	}
 
-	public bool adding = true;
+	public void StartChange(Transform newParent)
+	{
+		direction = rigid.velocity.normalized;
+		magnitude = rigid.velocity.magnitude;
+
+		rigid.velocity = Vector3.zero;
+		rigid.isKinematic = true;
+
+		transform.SetParent(newParent);
+		transform.localPosition = Vector3.zero;
+
+		changing = true;
+	}
 	public void ChangeVelocity(float amount)
 	{
-		if(!draining)
-		{
-			direction = rigid.velocity.normalized;
-			if(direction == Vector3.zero)
-			{
-				direction = (PlayerController.position - transform.position).normalized;
-			}
-			magnitude = rigid.velocity.magnitude;
-			rigid.velocity = Vector3.zero;
-			draining = true;
-		}
 		magnitude -= amount;
 		magnitude = Mathf.Clamp(magnitude, -maxMag, maxMag);
-		adding = magnitude < 0;
 	}
 
-	public void StopDrain()
+	public void StopChange()
 	{
+		rigid.isKinematic = false;
+		transform.SetParent(null);
+
 		if(magnitude < 0)
 		{
-			direction = PlayerController.position - transform.position;
+			gameObject.layer = LayerMask.NameToLayer("GrabbableFromPlayer");
+			direction = -PlayerController.instance.GetComponent<StatusController>().CurrentFacing;
+			aggressive = false;
 		}
 		rigid.velocity = direction * magnitude;
-		draining = false;
+
+		magnitude = 0;
+		direction = Vector3.zero;
+	}
+	public void SetMagnitude(float amount)
+	{
+		magnitude = amount;
+	}
+	private void OnCollisionEnter(Collision other)
+	{
+		aggressive = false;
+		rigid.velocity = Vector3.zero;
 	}
 }
