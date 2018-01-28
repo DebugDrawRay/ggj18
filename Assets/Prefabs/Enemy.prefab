@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114043921802028710}
   - component: {fileID: 114839599541475370}
   - component: {fileID: 114497667696015686}
+  - component: {fileID: 95710855651101750}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -105,6 +106,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 0.4, z: 0.4}
   m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!95 &95710855651101750
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902255223966766}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 29c7f6649de2b8b408ad391dcd957d19, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114043921802028710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,7 +172,10 @@ MonoBehaviour:
     m_Bits: 8192
   damageTriggerExtends: {x: 0.25, y: 0.25, z: 0.25}
   damageTriggerCenter: {x: 0, y: 0.25, z: 0}
-  damageThresh: 5
+  damageThresh: 2.5
+  hurt: {fileID: 8300000, guid: 11fe60091bb1dba48ae90ad52ab4967c, type: 3}
+  death: {fileID: 8300000, guid: e246b1736a845b94dbf8dfbd3667f652, type: 3}
+  low: {fileID: 0}
 --- !u!114 &114365979859141498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -195,6 +217,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   locked: 0
   updateFacing: 0
+  walk: {fileID: 0}
 --- !u!114 &114459201244150438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -221,6 +244,7 @@ MonoBehaviour:
   throwable: {fileID: 1137831185460588, guid: 9fb8fcf30d82fb54887d373936431321, type: 2}
   throwableOffset: 0.25
   throwForce: 10
+  thrown: {fileID: 8300000, guid: 394d15f3fd290924caf7e7772001c4fa, type: 3}
 --- !u!114 &114720038583404850
 MonoBehaviour:
   m_ObjectHideFlags: 1

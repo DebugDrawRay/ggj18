@@ -45,10 +45,10 @@ public class StatusController : MonoBehaviour
     public int maxHealth = 3;
     private int currentHealth;
     public bool inKnockback
-	{
-		get;
-		private set;
-	}
+    {
+        get;
+        private set;
+    }
     public float knockbackTime = .5f;
     private float currentKnock = 0;
     public float knockbackForce = 5;
@@ -58,6 +58,10 @@ public class StatusController : MonoBehaviour
     public Vector3 damageTriggerExtends;
     public Vector3 damageTriggerCenter;
     public float damageThresh = 5f;
+    public AudioClip hurt;
+    public AudioClip death;
+    public AudioClip low;
+    public bool isDying;
     private void Start()
     {
         currentHealth = maxHealth;
@@ -68,10 +72,6 @@ public class StatusController : MonoBehaviour
     }
     private void Update()
     {
-        if (arrowCanvas)
-        {
-            arrowCanvas.transform.rotation = Quaternion.LookRotation(GetFacingCardinal(currentFacing), Vector3.up);
-        }
         if (currentKnock > 0)
         {
             transform.position = Vector3.Lerp(transform.position, knockbackTarget, .1f);
@@ -94,7 +94,6 @@ public class StatusController : MonoBehaviour
                 if (obj && obj.rigid.velocity.magnitude > damageThresh)
                 {
                     obj.rigid.velocity = Vector3.zero;
-                    Knockback(obj.transform.position);
                     currentHealth -= 1;
                     if (isPlayer)
                     {
@@ -103,6 +102,15 @@ public class StatusController : MonoBehaviour
                     if (currentHealth <= 0)
                     {
                         Death();
+                    }
+					else
+					{
+                        if (isPlayer && currentHealth == 1)
+                        {
+                            AudioManager.instance.PlaySfx(low);
+                        }
+                        AudioManager.instance.PlaySfx(hurt);
+                        Knockback(obj.transform.position);
                     }
                 }
             }
@@ -139,7 +147,16 @@ public class StatusController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            StartCoroutine(Death_Coroutine());
         }
+    }
+
+    private IEnumerator Death_Coroutine()
+    {
+        AudioManager.instance.PlaySfx(death);
+        isDying = true;
+        GetComponent<Animator>().SetTrigger("death");
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
 }

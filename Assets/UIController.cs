@@ -6,7 +6,6 @@ public class UIController : MonoBehaviour
 {
 	public static UIController instance;
 	public Image[] hearts;
-	public Image storedVelocity;
 
 	private void Awake()
 	{
@@ -21,8 +20,4 @@ public class UIController : MonoBehaviour
 		}
 	}
 
-	public void UpdateVelocity(float amount)
-	{
-		storedVelocity.fillAmount = amount;
-	}
 }

@@ -11,7 +11,11 @@ public class Grabbable : MonoBehaviour
     }
 
     public float maxMag = 10;
-    private bool changing;
+    public bool changing
+    {
+        get;
+        private set;
+    }
 
     private Vector3 direction;
 
@@ -25,13 +29,17 @@ public class Grabbable : MonoBehaviour
         get;
         private set;
     }
-	public bool isEnemies = true;
+    public bool isEnemies = true;
     private Transform parent;
+    public Transform visual;
     public float magnitude
     {
         get;
         private set;
     }
+
+	public AudioClip thrown;
+	public AudioClip grab;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -50,13 +58,16 @@ public class Grabbable : MonoBehaviour
     }
     public void ChangeVelocity(float amount)
     {
-        magnitude -= amount;
+        magnitude -= amount * Time.deltaTime;
     }
 
     public void Update()
     {
         if (changing)
         {
+            Vector2 pos = Random.insideUnitSphere;
+            Vector3 actual = new Vector3(pos.x, 0, pos.y);
+            visual.transform.localPosition = actual * 0.05f;
             if (magnitude > 0)
             {
                 rigid.velocity = direction * magnitude;
@@ -70,8 +81,11 @@ public class Grabbable : MonoBehaviour
                         rigid.isKinematic = true;
                         transform.SetParent(parent);
                         transform.localPosition = Vector3.zero;
-						PlayerController.instance.GetComponent<VelocityGrabber>().grabber.currentObject = this;
+                        visual.transform.localPosition = Vector3.zero;
+                        PlayerController.instance.GetComponent<VelocityGrabber>().grabber.currentObject = this;
                         isHeld = true;
+						AudioManager.instance.PlaySfx(grab);
+                        changeVisual.SetActive(false);
                     }
                 }
             }
@@ -90,12 +104,13 @@ public class Grabbable : MonoBehaviour
         rigid.isKinematic = false;
 
         parent = null;
-		if(isHeld)
-		{
-        	magnitude = Mathf.Clamp(magnitude, -maxMag, maxMag);
-        	rigid.velocity = direction * magnitude;
-			isHeld = false;
-		}
+        if (isHeld)
+        {
+            magnitude = Mathf.Clamp(magnitude, -maxMag, maxMag);
+            rigid.velocity = direction * magnitude;
+            isHeld = false;
+			AudioManager.instance.PlaySfx(thrown);
+        }
 
         magnitude = 0;
         direction = Vector3.zero;
@@ -103,9 +118,14 @@ public class Grabbable : MonoBehaviour
         changeVisual.SetActive(false);
     }
 
-	private void OnCollisionEnter(Collision other)
-	{
-		rigid.velocity = Vector3.zero;
-		aggressive = false;
-	}
+    public void SetMagnitude(float mag)
+    {
+        magnitude = magnitude;
+        rigid.velocity = Vector3.zero;
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        rigid.velocity = Vector3.zero;
+        aggressive = false;
+    }
 }

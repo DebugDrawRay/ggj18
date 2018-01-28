@@ -11,10 +11,9 @@ public class Grabber : MonoBehaviour
 	public List<Grabbable> currentObjects = new List<Grabbable>();
     private void OnTriggerEnter(Collider other)
     {
-		if(other.GetComponent<Grabbable>() && !currentObjects.Contains(other.GetComponent<Grabbable>()))
+		if(other.GetComponent<Grabbable>() && !other.GetComponent<Grabbable>().isEnemies && !currentObjects.Contains(other.GetComponent<Grabbable>()))
 		{
 			currentObjects.Add(other.GetComponent<Grabbable>());
-			other.GetComponent<Grabbable>().StartChange(holder.transform);
 		}
         // if (currentObject == null)
         // {

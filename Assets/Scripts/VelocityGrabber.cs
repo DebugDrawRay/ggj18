@@ -12,6 +12,7 @@ public class VelocityGrabber : ControlAction
     public float storedVelocity;
     public float maxVelocity = 30;
 
+    public AudioClip full;
     public enum Mode
     {
         Pull,
@@ -28,18 +29,28 @@ public class VelocityGrabber : ControlAction
     private bool hasStopped = false;
     private void Start()
     {
-        UIController.instance.UpdateVelocity(storedVelocity / maxVelocity);
+        GetComponent<Animator>().SetFloat("charge", storedVelocity / maxVelocity);
     }
     public override void UpdateAction(ActionSet actions)
     {
-        switch (currentMode)
+        if (!status.isDying)
         {
-            case Mode.Pull:
-                Pull(actions.primaryAction);
-                break;
-            case Mode.Push:
-                Push(actions.primaryAction);
-                break;
+            switch (currentMode)
+            {
+                case Mode.Pull:
+                    Pull(actions.primaryAction);
+                    break;
+                case Mode.Push:
+                    Push(actions.primaryAction);
+                    break;
+            }
+        }
+        else
+        {
+            foreach (Grabbable current in grabber.currentObjects)
+            {
+                current.StopChange();
+            }
         }
     }
     public void Pull(bool trigger)
@@ -53,18 +64,28 @@ public class VelocityGrabber : ControlAction
             {
                 foreach (Grabbable current in grabber.currentObjects)
                 {
-                    float newMag = current.magnitude - changeAmount;
-                    if (newMag >= 0)
+                    if (!current.isEnemies)
                     {
-                        if (storedVelocity < maxVelocity)
+                        if (!current.changing)
                         {
-                            storedVelocity += changeAmount;
+                            current.StartChange(grabber.holder.transform);
                         }
-                        current.ChangeVelocity(changeAmount);
+                        if (current.magnitude > 0)
+                        {
+                            if (storedVelocity < maxVelocity)
+                            {
+                                storedVelocity += changeAmount * Time.deltaTime;
+                            }
+                            current.ChangeVelocity(changeAmount);
+                        }
+                        else
+                        {
+                            current.SetMagnitude(0);
+                        }
                     }
                 }
                 storedVelocity = Mathf.Clamp(storedVelocity, 0, maxVelocity); ;
-                UIController.instance.UpdateVelocity(storedVelocity / maxVelocity);
+                GetComponent<Animator>().SetFloat("charge", storedVelocity / maxVelocity);
             }
             else
             {
@@ -72,7 +93,10 @@ public class VelocityGrabber : ControlAction
                 {
                     foreach (Grabbable current in grabber.currentObjects)
                     {
-                        current.StopChange();
+                        if (!current.Equals(grabber.currentObject))
+                        {
+                            current.StopChange();
+                        }
                     }
                     hasStopped = true;
                 }
@@ -82,6 +106,13 @@ public class VelocityGrabber : ControlAction
         {
             if (hasPressed)
             {
+                foreach (Grabbable current in grabber.currentObjects)
+                {
+                    if (!current.Equals(grabber.currentObject))
+                    {
+                        current.StopChange();
+                    }
+                }
                 hasPressed = false;
                 hasStopped = false;
                 currentMode = Mode.Push;
@@ -99,29 +130,25 @@ public class VelocityGrabber : ControlAction
                 hasPressed = true;
                 if (Mathf.Abs(current.magnitude) < current.maxMag)
                 {
-                    current.ChangeVelocity(changeAmount);
-                    if (current.isHeld && storedVelocity > 0)
+                    if (storedVelocity > 0)
                     {
-                        storedVelocity -= changeAmount;
+                        current.ChangeVelocity(changeAmount);
+                        storedVelocity -= changeAmount * Time.deltaTime;
                     }
                 }
-                //status.arrow.transform.localRotation = Quaternion.Euler(newMag > 0 ? new Vector3(0, 0, 0) : new Vector3(0, 0, 180));
                 storedVelocity = Mathf.Clamp(storedVelocity, 0, maxVelocity);
-                status.arrowCanvas.gameObject.SetActive(true);
-                status.arrow.fillAmount = Mathf.Abs(current.magnitude / current.maxMag);
-                UIController.instance.UpdateVelocity(storedVelocity / maxVelocity);
+                GetComponent<Animator>().SetFloat("charge", storedVelocity / maxVelocity);
             }
             else
             {
                 if (hasPressed)
                 {
                     current.StopChange();
-					current = null;
+                    grabber.currentObject = null;
                     hasPressed = false;
                     hasStopped = false;
                     currentMode = Mode.Pull;
                 }
-                status.arrowCanvas.gameObject.SetActive(false);
             }
         }
         else
@@ -131,9 +158,25 @@ public class VelocityGrabber : ControlAction
             currentMode = Mode.Pull;
         }
     }
+    private bool fullUp;
     private void Update()
     {
         grabber.transform.position = transform.position + (status.CurrentFacing * grabOffset);
         grabber.transform.rotation = Quaternion.LookRotation(status.CurrentFacing, Vector3.up);
+        if (fullUp)
+        {
+            if (storedVelocity < maxVelocity)
+            {
+                fullUp = false;
+            }
+        }
+        else
+        {
+            if (storedVelocity >= maxVelocity)
+            {
+                AudioManager.instance.PlaySfx(full);
+                fullUp = true;
+            }
+        }
     }
 }
