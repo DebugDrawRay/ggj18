@@ -53,9 +53,11 @@ public class TwoAxisMovement : ControlAction
                 {
                     source.Play();
                 }
+                anim.SetFloat("playing", 1);
             }
             else
             {
+                anim.SetFloat("playing", 0);
                 currentAcceleration -= acceleration;
                 if(source.isPlaying)
                 {
