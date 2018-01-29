@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
 	private void Update()
 	{
 		Player player = ReInput.players.GetPlayer(0);
-		if(player.GetAnyButtonDown())
+		if(player.GetButtonDown("grab"))
 		{
 			LoadScene("Main");
 		}

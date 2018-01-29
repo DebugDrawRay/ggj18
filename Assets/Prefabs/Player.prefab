@@ -223,8 +223,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1630813522445666}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: -0.183}
-  m_LocalScale: {x: 1, y: 0.41832468, z: 1}
+  m_LocalPosition: {x: 0, y: -0, z: -0.1859}
+  m_LocalScale: {x: 1.5715951, y: 0.65743697, z: 1.5715951}
   m_Children: []
   m_Father: {fileID: 4920789814337184}
   m_RootOrder: 0
@@ -236,8 +236,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1762777544832942}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.19999999}
-  m_LocalScale: {x: 1, y: 0.41832447, z: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.2029}
+  m_LocalScale: {x: 1.5715951, y: 0.65743667, z: 1.5715951}
   m_Children: []
   m_Father: {fileID: 4667374226134086}
   m_RootOrder: 1
@@ -426,7 +426,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 116
   m_CollisionDetection: 1
 --- !u!64 &64980120766363226
 MeshCollider:
@@ -523,7 +523,7 @@ MonoBehaviour:
   grabber: {fileID: 114977665330464800}
   grabOffset: 0.2
   changeAmount: 35
-  storedVelocity: 15
+  storedVelocity: 0
   maxVelocity: 30
   full: {fileID: 8300000, guid: 1f15d4b6ed76f424b90cc7cf40bf9326, type: 3}
   shake: {fileID: 8300000, guid: 30d659ed7f699ca4f86517ee2610b095, type: 3}
