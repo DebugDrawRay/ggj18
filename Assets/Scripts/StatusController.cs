@@ -44,7 +44,7 @@ public class StatusController : MonoBehaviour
     public GameObject arrowCanvas;
     public Image arrow;
     public int maxHealth = 3;
-    private int currentHealth;
+    public int currentHealth;
     public bool inKnockback
     {
         get;

@@ -244,7 +244,7 @@ MonoBehaviour:
   fixedUpdate: 0
   throwable: {fileID: 1137831185460588, guid: 9fb8fcf30d82fb54887d373936431321, type: 2}
   throwableOffset: -0.25
-  throwForce: 10
+  throwForce: 7.5
   thrown: {fileID: 8300000, guid: 394d15f3fd290924caf7e7772001c4fa, type: 3}
 --- !u!114 &114720038583404850
 MonoBehaviour:
